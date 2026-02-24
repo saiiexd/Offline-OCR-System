@@ -1,109 +1,100 @@
-# 📄 Offline OCR System: Image-to-JSON Converter
+# Offline OCR System: Image-to-JSON Converter
 
-A robust, privacy-focused **Offline OCR (Optical Character Recognition)** application built with Python. This tool allows users to extract text from images and documents without an internet connection, converting the results into a structured JSON format.
+A robust, privacy-focused Offline Optical Character Recognition (OCR) application built with Python. This tool allows users to extract text from images and documents without an internet connection, converting the results into a structured JSON format.
 
----
+## Project Overview
 
-## 🎯 Project Overview
+The Offline OCR System is designed for high-security environments and users who require a secure way to digitize physical documents. By leveraging Tesseract OCR and OpenCV, it provides high-accuracy text extraction while ensuring data privacy by processing all information locally on the host machine.
 
-The **Offline OCR System** is designed for users who need a quick and secure way to digitize physical documents. By leveraging the power of **Tesseract OCR** and **OpenCV**, it provides high-accuracy text extraction while ensuring data privacy by processing everything locally on your machine.
+### Key Features
+- Privacy Focused: 100 percent offline processing. No data is transmitted to external servers.
+- Advanced Preprocessing: Utilizes OpenCV for adaptive thresholding and noise reduction to improve character recognition accuracy.
+- Multiple Format Support: Compatible with standard image formats including PNG, JPG, and JPEG.
+- Structured Output: Generates JSON files containing extracted text and metadata for easy integration with other systems.
+- Intuitive Interface: Streamlit-based web interface for efficient document management and preview.
 
-### ✨ Key Features
-- **Privacy First:** 100% offline processing. No data ever leaves your device.
-- **Smart Preprocessing:** Automatically enhances image quality (Grayscale, Noise Reduction, Thresholding) for better accuracy.
-- **Multi-Format Support:** Works with `.png`, `.jpg`, and `.jpeg`.
-- **Structured Output:** Download extracted text instantly as a `.json` file.
-- **Modern UI:** Built with **Streamlit** for a clean, intuitive user experience.
+## System Architecture and Logic
 
----
+The application implements a modular pipeline to transform raw image data into structured text:
 
-## 🧠 The Logic Behind the System
+1.  Image Ingestion: The user provides a document image through the web interface.
+2.  Image Preprocessing (OpenCV):
+    *   Grayscale Conversion: Reduces complexity by removing color information.
+    *   Noise Reduction: Uses Gaussian blurring to eliminate pixel-level artifacts.
+    *   Adaptive Thresholding: Employs Otsu's method to differentiate text from the background based on local pixel intensity, creating a high-contrast binary image.
+3.  Character Recognition (Tesseract OCR): The Tesseract engine analyzes the binary image, mapping pixel patterns to known character sets using pre-trained neural network models.
+4.  Data Structuring: The extracted string is cleaned and mapped into a JSON object along with the source metadata.
 
-The application follows a modular pipeline to ensure maximum accuracy:
+## Technology Stack
 
-1.  **Image Upload:** The user selects an image via the Streamlit interface.
-2.  **Image Processing (OpenCV):**
-    *   **Grayscale Conversion:** Simplifies the image for the OCR engine.
-    *   **Adaptive Thresholding (Otsu's Method):** Converts the image to binary (black and white) to highlight text characters against the background.
-3.  **OCR Extraction (Tesseract):** The processed binary image is sent to the Tesseract engine, which identifies characters and words based on pre-trained language models.
-4.  **JSON Formatting:** The extracted text is bundled with metadata (like filename) and presented as a structured JSON object.
+- Frontend Framework: Streamlit
+- OCR Engine: Tesseract OCR (v5.x recommended)
+- Image Processing Libraries: OpenCV (cv2) and Pillow (PIL)
+- Implementation Language: Python 3.10+
 
----
+## Installation and Configuration
 
-## 🛠️ Tech Stack
-
-- **Frontend:** [Streamlit](https://streamlit.io/) (Web UI)
-- **OCR Engine:** [Tesseract OCR](https://github.com/tesseract-ocr/tesseract)
-- **Image Processing:** [OpenCV](https://opencv.org/) & [Pillow](https://python-pillow.org/)
-- **Programming Language:** Python 3.x
-
----
-
-## 🚀 Getting Started
-
-Follow these steps to set up the project on your local machine.
+Follow these instructions to deploy the application on a local environment.
 
 ### 1. Prerequisites
-- **Python:** [Download and install Python](https://www.python.org/downloads/) (v3.10+ recommended).
-- **Tesseract OCR:** 
-    - Download the installer from [UB Mannheim](https://github.com/UB-Mannheim/tesseract/wiki) (for Windows).
-    - Install it to the default path: `C:\Program Files\Tesseract-OCR\tesseract.exe`.
+- Python 3.10 or higher.
+- Tesseract OCR Engine:
+    - Windows: Download the installer from the official UB Mannheim repository.
+    - Path Configuration: Ensure the installation path (typically C:\Program Files\Tesseract-OCR\tesseract.exe) is correctly referenced in the core/ocr_processor.py file.
 
-### 2. Download/Clone the Project
+### 2. Repository Setup
+Clone the repository to your local machine:
 ```bash
 git clone https://github.com/saiiexd/Offline-OCR-System.git
 cd Offline-OCR-System
 ```
 
-### 3. Setup Virtual Environment (Recommended)
+### 3. Environment Configuration
+It is recommended to use a virtual environment to manage dependencies:
 ```bash
 python -m venv venv
-# Activate on Windows:
+# Windows activation:
 .\venv\Scripts\activate
-# Activate on Mac/Linux:
+# Unix/macOS activation:
 source venv/bin/activate
 ```
 
-### 4. Install Dependencies
+### 4. Dependency Installation
+Install the required Python packages:
 ```bash
 pip install -r requirements.txt
 ```
 
----
+## Application Execution
 
-## 🖥️ How to Run
-
-Once the requirements are installed, launch the application using Streamlit:
+To launch the system, execute the following command from the project root:
 
 ```bash
 streamlit run app.py
 ```
 
-After running the command, your browser will open the application at `http://localhost:8501`.
+Upon execution, the interface will be accessible via the local host address, typically http://localhost:8501.
 
----
+## Project Structure
 
-## 📁 File Structure
 ```text
 Offline-OCR-System/
-├── app.py              # Main entry point
-├── core/               # OCR & Processing Logic
-│   ├── ocr_processor.py # Tesseract interface
-│   ├── utils.py        # Image preprocessing helper
-│   └── ...
-├── ui/                 # UI components
-│   └── web_ui.py       # Streamlit layout
-├── requirements.txt    # Library dependencies
-└── README.md           # Documentation
+├── app.py              # Main application entry point
+├── core/               # Backend logic and processing
+│   ├── ocr_processor.py # Tesseract engine interface
+│   ├── preprocess.py    # OpenCV image manipulation
+│   └── utils.py         # Utility functions
+├── ui/                 # User interface components
+│   └── web_ui.py       # Streamlit layout and logic
+├── requirements.txt    # List of project dependencies
+└── README.md           # System documentation
 ```
 
----
+## Contributing
+Project contributors should submit pull requests for review. Ensure that any modifications to the OCR core are accompanied by relevant test cases.
 
-## 🤝 Contributing
-Contributions are welcome! If you have suggestions for improvement, please fork the repo and create a pull request.
-
-## 📄 License
-This project is licensed under the MIT License.
+## License
+This project is released under the MIT License.
 
 ---
-*Developed by [saiiexd](https://github.com/saiiexd)*
+Developed by saiiexd
